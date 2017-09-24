@@ -1,0 +1,30 @@
+<% include ./partials/header %>
+<% include ./partials/navbar %>
+
+<div class="ui main text container segment">
+    <div class="ui huge header"><%= blog.title %></div>
+    <div class="ui top attached">
+        <div class="item">
+            
+            <img src="<%= blog.image %>" class="ui fluid rounded image"></img>
+            <div class="content">
+                <div><%= blog.created.toDateString() %></div>
+                
+            </div>
+            <div class="description">
+                <!--<p> <//%= blog.body %> </p>-->
+                <p> <%- blog.body %> </p>
+                <!--Using - instead of equal to allows us to use html in our body content-->
+            </div>
+            <br>
+            
+            <a href="/blogs/<%= blog._id %>/edit" class="ui basic orange button">Edit</a>
+            <form id="delete-form" action="/blogs/<%= blog._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Are You Sure You Want To Do That?');">
+                <button class="ui red basic button right floated"> Delete </button>
+            </form>
+        </div>
+        
+    </div>
+
+</div>
+<% include ./partials/footer %>
