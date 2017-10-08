@@ -29,6 +29,35 @@
                                 <% }); %>
                         </div>  
                 </div>
+                <div class="ui divider" id="paginate">
+                        <div class="ui pagination menu">
+                         
+                                 <% if (nextPage>numPages || currentPage>1) { %>
+                                <div class="item">
+                                        <a href="/blogs/pages/<%=prevPage%>"> &lt;&lt; Newer Posts</a>
+                                </div>
+                                
+                            
+                                <% } else  { %>
+                                    <div class="item">
+                                                <span> &lt;&lt; Newer Posts</span>
+                                        </div> 
+                                <% } %>
+                                <% if  (prevPage===0 || currentPage<numPages) { %>
+                                     <div class="item">
+                                                 
+                                                <a href="/blogs/pages/<%=nextPage%>"> &gt;&gt; Older Posts</a>
+                                        </div>
+                                <% } else { %>
+                                    <div class="item">
+                                        <span>&gt;&gt; Older Posts</span>
+                                        
+                                </div>
+                                <% } %>
+                        
+                        
+                   </div>
+                </div>
                 
         </div>
 
