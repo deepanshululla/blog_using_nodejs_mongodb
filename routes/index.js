@@ -30,16 +30,32 @@ router.post("/register", function (req,res) {
     var username=data.username;
     var password=data.password;
     var email=data.email;
-    User.register(new User({username: username, email: email, fullname: fullname}), password, function (err, newUser) {
+    User.find({},function (err,foundUsers) {
        if(err){
            console.log(err);
            return res.redirect("/register");
        } else {
-           passport.authenticate("local")(req, res, function () {
-               return res.redirect("back");
-           });
+        //   eval(require("locus"));
+           if(foundUsers.length>=1){
+               req.flash("error","Only one user registeration per blog");
+               return res.redirect("/");
+           } else {
+                User.register(new User({username: username, email: email, fullname: fullname}), password, function (err, newUser) {
+                   if(err){
+                       console.log(err);
+                       return res.redirect("/register");
+                   } else {
+                       passport.authenticate("local")(req, res, function () {
+                           return res.redirect("/");
+                       });
+                   }
+                });
+               
+               
+           }
        }
     });
+   
     
 });
 
