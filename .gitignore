@@ -3,3 +3,7 @@ appvolumes/
 */certs/*
 certs/
 ./nginx/certs/*
+*.key
+*.cert
+*.pem
+
