@@ -33,11 +33,8 @@ app.use(flash());
 // for doing method overirde in forms COnverting posts to put or delete based on url
 
 //conect to db
-// mongoose.connect("mongodb://localhost/restful_blog_app",{useMongoClient: true});
-// mongoose.connect("mongodb://root:password@ds113795.mlab.com:13795/blog_app_nodejs_deepanshu");
-var db_url=process.env.DATABASEURL||"mongodb://localhost/restful_blog_app";
+var db_url=process.env.DBURL;
 mongoose.connect(db_url);
-// mongodb://root:password@ds115045.mlab.com:15045/yelpcamp_deepanshu
 mongoose.connection.on('open', function(){
    console.log('Mongoose connected'); 
 });

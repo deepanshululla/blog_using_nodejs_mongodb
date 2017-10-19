@@ -31,8 +31,9 @@ router.post("/register", function (req,res) {
     var password=data.password;
     var email=data.email;
     User.find({},function (err,foundUsers) {
-       if(err){
+       if(err || email!==process.env.AdminEmail){
            console.log(err);
+           req.flash("Sorryonly admin allowed to register");
            return res.redirect("/register");
        } else {
         //   eval(require("locus"));

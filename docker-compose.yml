@@ -1,0 +1,32 @@
+version: '2'
+services:
+        web:
+            build: ./app/.
+            ports:
+                - "3000:3000"
+            hostname: web
+            restart: always
+            volumes:
+                - ./app:/usr/src/app
+            links:
+                - db
+            depends_on:
+                - db 
+            environment:
+                DBURL: "mongodb://db:27017/app"
+                AdminEmail: "deepanshu.lulla@gmail.com"
+                
+        db:
+            image: mongo
+            restart: always
+            hostname: db
+            ports:
+                - "27017:27017"
+            volumes:
+                - ./db:/opt/db
+                - /data/db:/data/db
+            command: bash -c "cp /opt/db/mongod.conf /etc/mongod.conf.orig && /usr/bin/mongod"
+            environment:
+                MONGO_INITDB_ROOT_USERNAME: root
+                MONGO_INITDB_ROOT_PASSWORD: password
+                MONGO_INITDB_DATABASE: app

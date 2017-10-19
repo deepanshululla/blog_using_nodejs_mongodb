@@ -31,7 +31,7 @@ router.post("/",middleware.isLoggedIn, function (req, res) {
     // sanitizing inputs
     req.body.blog.image= req.sanitize(req.body.blog.image);
     req.body.blog.title= req.sanitize(req.body.blog.title);
-    req.body.blog.body= req.sanitize(req.body.blog.body);
+    //req.body.blog.body= req.sanitize(req.body.blog.body);
     var data=req.body.blog;
     
     
@@ -41,7 +41,7 @@ router.post("/",middleware.isLoggedIn, function (req, res) {
            res.render("new");
        } else {
            console.log("POST /blogs")
-           User.findOne({}, function (err, foundUser) {
+           User.findOne({email:process.env.AdminEmail}, function (err, foundUser) {
                 if(err || !foundUser){
                     console.log(err);
                     req.flash("error","User not found");
@@ -77,7 +77,7 @@ router.get("/:id", function(req, res) {
          if(err || !foundblog){
             console.log(err);
             req.flash("error","Can't find this blog");
-            return res.redirect("/");
+            return res.redirect("back");
          }  else {
             
             console.log("GET /blogs/"+blogId);
@@ -93,7 +93,7 @@ router.get("/:id/edit",middleware.isLoggedIn,function(req, res) {
          if(err || !foundblog){
             console.log(err);
             req.flash("error","Can't find this blog");
-            return res.redirect("/");
+            return res.redirect("back");
          }  else {
             console.log("GET /blogs/"+blogId+"/edit");
             res.render("edit",{blog:foundblog}); 
@@ -106,14 +106,14 @@ router.put("/:id",middleware.isLoggedIn, function (req,res) {
     var blogId=req.params.id;
     req.body.blog.image= req.sanitize(req.body.blog.image);
     req.body.blog.title= req.sanitize(req.body.blog.title);
-    req.body.blog.body= req.sanitize(req.body.blog.body);
+    //req.body.blog.body= req.sanitize(req.body.blog.body);
     var newData=req.body.blog;
     console.log("PUT /blogs/"+blogId);
     Blog.findByIdAndUpdate(blogId, newData, function(err, updatedBlog){
         if(err || !updatedBlog){
             console.log(err);
             req.flash("error","Can't update this blog");
-            return res.redirect("/");
+            return res.redirect("back");
         } else {
             return res.redirect("/blogs/"+blogId);
         }
@@ -127,9 +127,9 @@ router.delete("/:id",middleware.isLoggedIn, function (req,res) {
         if(err || !blogId){
             console.log(err);
             req.flash("error","Can't find this blog");
-            return res.redirect("/");
+            return res.redirect("back");
         } else {
-            return res.redirect("/blogs");
+            return res.redirect("/blogs/pages/1");
         }
     })
 });
@@ -143,24 +143,40 @@ router.get("/pages/:page_id", function(req,res){
     if(!req.params.page_id){
         page_id=1;
     } else {
-        page_id=req.params.page_id;
+        page_id=Number(req.params.page_id);
+    }
+    if(page_id<1){
+        page_id=1;
     }
     Blog.paginate({}, { page: page_id, limit: 5 ,sort:{created:'desc'}}, function(error, paginatedResults) {
       if (error) {
         console.error(error);
       } else {
         //  eval(require("locus"));
-        if(req.params.page_id<1 || req.params.page_id>paginatedResults.pages){
+        if(page_id<1 || page_id>Number(paginatedResults.pages)){
             req.flash("error","Invalid page Number");
             return res.redirect("back");
         }
         // console.log(paginatedResults);
+        if(Number(paginatedResults.pages)<=1){
+            return res.render('index',{
+			blogs:paginatedResults.docs,
+			isPaginate:false,
+			currentPage:1,
+			prevPage:1,
+			nextPage:1,
+			numPages:1
+			
+		});
+
+        }
         res.render("index",{
             blogs:paginatedResults.docs,
             numPages:paginatedResults.pages, 
-            currentPage:Number(req.params.page_id), 
-            prevPage:(Number(req.params.page_id)-1).toString(),
-            nextPage:(Number(req.params.page_id)+1).toString(),
+            currentPage:page_id,
+            isPaginate:true,
+            prevPage:(page_id-1).toString(),
+            nextPage:(page_id+1).toString(),
             
         });
       }
