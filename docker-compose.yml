@@ -1,5 +1,15 @@
 version: '2'
 services:
+        nginx:
+            build: ./nginx/.
+            hostname: nginx
+            restart: always
+            ports:
+               - "80:80"
+               - "443:443"
+            depends_on:
+               - web
+               - db
         web:
             build: ./app/.
             ports:
@@ -8,6 +18,7 @@ services:
             restart: always
             volumes:
                 - ./app:/usr/src/app
+                - /web/logs:/root/.npm/_logs 
             links:
                 - db
             depends_on:

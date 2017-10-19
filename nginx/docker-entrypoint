@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -e
+
+# This allows us to use the same template
+# for development, staging and production.
+CONFIG_PATH="/etc/nginx/conf.d/default.conf"
+STAGING_IP="34.237.44.35"
+STAGING_HOSTNAME="ubuntu"
+#it is same with whatever results in your staging server when you run hostname. it is $(hostname)
+DOMAIN_NAME="blog.deepanshululla.com"
+
+#the purpose of this block is to check if hostname of staging server matches with the
+#hostname it is a staging server but the block checks if it is not then  it is a production server
+#and if it is a production server it changes the ip of staging server to domain name.
+if [[ $(hostname) != "${STAGING_HOSTNAME}" ]]; then
+  sed -i "s/${STAGING_IP}/${DOMAIN_NAME}/g" "${CONFIG_PATH}"
+fi
+
+# Execute the CMD from the Dockerfile.
+exec "$@"
+#basically asking to execute CMD ["nginx", "-g", "daemon off;"]
+

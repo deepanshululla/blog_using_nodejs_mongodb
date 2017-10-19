@@ -16,7 +16,7 @@ i.icon.idea {
     background-color:rgba(0, 0, 0, 0.5);
     
 }
-.ui.segment {
+.ui.segment.main.text.container {
     position: relative;
     background: #fff;
     box-shadow: 0 0px 0px 0 rgba(34,36,38,.15);
