@@ -36,7 +36,8 @@ services:
             volumes:
                 - ./db:/opt/db
                 - /data/db:/data/db
-            command: bash -c "cp /opt/db/mongod.conf /etc/mongod.conf.orig && /usr/bin/mongod"
+                - /var/backups/mongobackups:/backups
+            command: bash -c "chmod +x /opt/db/config_db.sh && /opt/db/config_db.sh"
             environment:
                 MONGO_INITDB_ROOT_USERNAME: root
                 MONGO_INITDB_ROOT_PASSWORD: password
