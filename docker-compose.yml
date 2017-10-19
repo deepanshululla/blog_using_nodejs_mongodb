@@ -28,7 +28,7 @@ services:
                 AdminEmail: "deepanshu.lulla@gmail.com"
                 
         db:
-            image: mongo
+            build: ./db/.
             restart: always
             hostname: db
             ports:
@@ -37,7 +37,9 @@ services:
                 - ./db:/opt/db
                 - /data/db:/data/db
                 - /var/backups/mongobackups:/backups
-            command: bash -c "chmod +x /opt/db/config_db.sh && /opt/db/config_db.sh"
+            command: bash -c "cp /opt/db/mongod.conf /etc/mongod.conf.orig && /usr/bin/mongod && echo 'Starting Server...' && find /backups -mtime +7 -exec rm -rf {} && echo 'Removing older backups' && mongodump --out /backups/`date +\"%m-%d-%y\"` && echo 'Backed up DB'"
+            # command: bash -c "cp /opt/db/mongod.conf /etc/mongod.conf.orig && /usr/bin/mongod"
+ 
             environment:
                 MONGO_INITDB_ROOT_USERNAME: root
                 MONGO_INITDB_ROOT_PASSWORD: password
