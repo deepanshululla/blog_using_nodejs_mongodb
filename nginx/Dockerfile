@@ -11,8 +11,8 @@ COPY config/default.conf /etc/nginx/conf.d/default.conf
 #the /etc/nginx is the main conf directory and default.conf
 #is used for setting up virtual hosts.
 
-COPY certs/productionexample.crt /etc/ssl/certs/productionexample.crt
-COPY certs/productionexample.key /etc/ssl/private/productionexample.key
+COPY /certs/productionexample.crt /etc/ssl/certs/productionexample.crt
+COPY /certs/productionexample.key /etc/ssl/private/productionexample.key
 COPY certs/dhparam.pem /etc/ssl/private/dhparam.pem
 
 COPY docker-entrypoint /
