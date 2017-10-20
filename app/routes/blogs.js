@@ -184,4 +184,7 @@ router.get("/pages/:page_id", function(req,res){
     
 });
 
+router.get('*',function(req,res){
+     return res.render('error');
+});
 module.exports = router;

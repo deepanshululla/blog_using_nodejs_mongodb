@@ -96,6 +96,8 @@ router.get("/logout",middleware.isLoggedIn, function(req, res) {
    return res.redirect('/');
 });
 
-
+//router.get('*', function(req,res){
+//   res.render('error');
+//});
 
 module.exports = router;

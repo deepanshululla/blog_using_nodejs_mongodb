@@ -75,6 +75,9 @@ app.use(function(req,res, next){
 app.use("/",indexRoutes);
 app.use("/blogs",blogRoutes);
 
+app.get('*',function(req,res){
+    res.render('error');
+});
 mongoosePaginate.paginate.options = { 
   lean:  true,
   limit: 5
