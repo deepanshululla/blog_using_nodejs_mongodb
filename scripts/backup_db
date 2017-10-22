@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+find /backups -mtime +7 -exec rm -rf {} \;
+echo "Removing older backups"
+mongodump --out /backups/`date +"%m-%d-%y"`
+echo "Backed up DB"
+

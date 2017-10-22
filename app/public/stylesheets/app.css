@@ -38,3 +38,16 @@ i.icon.idea {
     margin: 0 auto;
     text-align:center;
 }
+.block-quotes{
+    background-color:#ffffc6;
+    text-align:center;
+}
+.youtube-video {
+    margin: 0 auto;
+    box-shadow: 0 1px 1px 0 rgba(34,36,38,.15);
+    position: relative;
+    padding: 1em 1em;
+    border-radius: .28571429rem;
+    border: 0px solid rgba(34,36,38,.15);
+
+}
