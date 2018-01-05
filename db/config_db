@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cp /opt/db/mongod.conf /etc/mongod.conf.orig && /usr/bin/mongod
+/usr/bin/mongod --repair
 echo "Starting Server..."
 find /backups -mtime +7 -exec rm -rf {} \;
 echo "Removing older backups"
